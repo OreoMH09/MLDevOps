@@ -74,13 +74,8 @@ pipeline {
         stage('Publish MLflow Metrics') {
             steps {
                 echo 'Publishing MLflow metrics...'
-                script {
-                    def metricsFile = readJSON file: 'outputs/classification_metrics.json'
-                    echo "Accuracy: ${metricsFile.accuracy}"
-                    echo "Precision: ${metricsFile.precision}"
-                    echo "Recall: ${metricsFile.recall}"
-                    echo "F1 Score: ${metricsFile.f1_score}"
-                }
+                echo 'Metrics saved in outputs/classification_metrics.json'
+                echo 'Check Build Artifacts for detailed metrics'
             }
         }
     }
