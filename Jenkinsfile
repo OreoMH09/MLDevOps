@@ -19,9 +19,9 @@ pipeline {
             steps {
                 echo 'Setting up Python virtual environment...'
                 bat '''
-                    python -m venv %VENV_PATH%
+                    py -3.11 -m venv %VENV_PATH%
                     call %VENV_PATH%\\Scripts\\activate.bat
-                    python -m pip install --upgrade pip
+                    py -3.11 -m pip install --upgrade pip
                 '''
             }
         }
@@ -31,7 +31,7 @@ pipeline {
                 echo 'Installing project dependencies...'
                 bat '''
                     call %VENV_PATH%\\Scripts\\activate.bat
-                    python -m pip install -r requirements.txt
+                    py -3.11 -m pip install -r requirements.txt
                 '''
             }
         }
@@ -41,7 +41,7 @@ pipeline {
                 echo 'Running Pytest tests...'
                 bat '''
                     call %VENV_PATH%\\Scripts\\activate.bat
-                    python -m pytest -v --junitxml=test-results.xml --cov=carshare_mlops --cov-report=xml --cov-report=html
+                    py -3.11 -m pytest -v --junitxml=test-results.xml --cov=carshare_mlops --cov-report=xml --cov-report=html
                 '''
             }
             post {
@@ -65,7 +65,7 @@ pipeline {
                 echo 'Running ML pipeline: training model and generating reports...'
                 bat '''
                     call %VENV_PATH%\\Scripts\\activate.bat
-                    python main.py
+                    py -3.11 main.py
                 '''
             }
         }
