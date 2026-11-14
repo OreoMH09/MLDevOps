@@ -5,6 +5,7 @@ pipeline {
         PYTHON_VERSION = '3.11'
         VENV_PATH = '.venv'
         MLFLOW_TRACKING_URI = 'sqlite:///mlflow.db'
+        PYTHON_EXE = 'C:\\Users\\Sanika Naik\\AppData\\Local\\Programs\\Python\\Python311\\python.exe'
     }
     
     stages {
@@ -19,9 +20,9 @@ pipeline {
             steps {
                 echo 'Setting up Python virtual environment...'
                 bat '''
-                    py -3.11 -m venv %VENV_PATH%
+                    "%PYTHON_EXE%" -m venv %VENV_PATH%
                     call %VENV_PATH%\\Scripts\\activate.bat
-                    py -3.11 -m pip install --upgrade pip
+                    "%PYTHON_EXE%" -m pip install --upgrade pip
                 '''
             }
         }
@@ -31,7 +32,7 @@ pipeline {
                 echo 'Installing project dependencies...'
                 bat '''
                     call %VENV_PATH%\\Scripts\\activate.bat
-                    py -3.11 -m pip install -r requirements.txt
+                    "%PYTHON_EXE%" -m pip install -r requirements.txt
                 '''
             }
         }
@@ -41,7 +42,7 @@ pipeline {
                 echo 'Running Pytest tests...'
                 bat '''
                     call %VENV_PATH%\\Scripts\\activate.bat
-                    py -3.11 -m pytest -v --junitxml=test-results.xml --cov=carshare_mlops --cov-report=xml --cov-report=html
+                    "%PYTHON_EXE%" -m pytest -v --junitxml=test-results.xml --cov=carshare_mlops --cov-report=xml --cov-report=html
                 '''
             }
             post {
@@ -65,7 +66,7 @@ pipeline {
                 echo 'Running ML pipeline: training model and generating reports...'
                 bat '''
                     call %VENV_PATH%\\Scripts\\activate.bat
-                    py -3.11 main.py
+                    "%PYTHON_EXE%" main.py
                 '''
             }
         }
