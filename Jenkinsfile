@@ -48,15 +48,6 @@ pipeline {
             post {
                 always {
                     junit 'test-results.xml'
-                    publishHTML([
-                        allowMissing: false,
-                        alwaysLinkToLastBuild: true,
-                        keepAll: true,
-                        reportDir: 'htmlcov',
-                        reportFiles: 'index.html',
-                        reportName: 'Coverage Report',
-                        reportTitles: 'Code Coverage'
-                    ])
                 }
             }
         }
@@ -76,15 +67,7 @@ pipeline {
                 echo 'Archiving outputs and reports...'
                 archiveArtifacts artifacts: 'outputs/**/*', fingerprint: true
                 archiveArtifacts artifacts: 'mlflow.db', fingerprint: true, allowEmptyArchive: true
-                publishHTML([
-                    allowMissing: false,
-                    alwaysLinkToLastBuild: true,
-                    keepAll: true,
-                    reportDir: 'outputs',
-                    reportFiles: 'evidently_wine_data_drift.html',
-                    reportName: 'Evidently Data Drift Report',
-                    reportTitles: 'Data Drift Analysis'
-                ])
+                archiveArtifacts artifacts: 'htmlcov/**/*', fingerprint: true, allowEmptyArchive: true
             }
         }
         
